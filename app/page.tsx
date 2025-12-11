@@ -87,21 +87,21 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-700 via-primary-800 to-accent-800 text-white py-20">
+      <section className="bg-gradient-to-br from-primary-700 via-primary-800 to-accent-800 text-white py-10 sm:py-14 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+          <div className="max-w-3xl space-y-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
               Психологический журнал Қарлығаш
             </h1>
-            <p className="text-xl md:text-2xl text-primary-100 mb-8">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-primary-100">
               Научные статьи, обзоры и отчеты о фундаментальных и прикладных исследованиях 
               в области психологии подростков и кризисной психологии
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/articles" className="btn-primary bg-white text-primary-700 hover:bg-primary-50">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3">
+              <Link href="/articles" className="btn-primary bg-white text-primary-700 hover:bg-primary-50 text-center">
                 Читать статьи
               </Link>
-              <Link href="/tools" className="btn-secondary bg-white/10 text-white hover:bg-white/20 border border-white/20">
+              <Link href="/tools" className="btn-secondary bg-white/10 text-white hover:bg-white/20 border border-white/20 text-center">
                 Инструменты самопомощи
               </Link>
             </div>
@@ -158,13 +158,13 @@ export default function Home() {
           <p className="text-lg mb-8 text-white/90">
             Получайте свежие статьи и материалы прямо на почту
           </p>
-          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+          <form className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto">
             <input
               type="email"
               placeholder="Ваш email"
-              className="flex-1 px-4 py-3 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
+              className="flex-1 px-4 py-3 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-white text-base"
             />
-            <button type="submit" className="btn-primary bg-white text-primary-700 hover:bg-primary-50">
+            <button type="submit" className="btn-primary bg-white text-primary-700 hover:bg-primary-50 py-3 px-6 text-base font-medium">
               Подписаться
             </button>
           </form>

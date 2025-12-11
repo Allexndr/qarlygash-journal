@@ -11,20 +11,20 @@ export default function Header() {
   return (
     <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 relative flex-shrink-0">
+          <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 relative flex-shrink-0">
               <Image
                 src="/logo.png"
                 alt="Қарлығаш"
-                width={40}
-                height={40}
-                className="object-contain"
+                width={32}
+                height={32}
+                className="object-contain sm:w-[40px] sm:h-[40px]"
                 unoptimized
               />
             </div>
-            <span className="text-2xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
+            <span className="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
               Қарлығаш
             </span>
           </Link>
@@ -60,38 +60,38 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {menuOpen && (
-          <nav className="md:hidden pb-4 space-y-2">
+          <nav className="md:hidden pb-3 space-y-1">
             <Link
               href="/articles"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+              className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
               onClick={() => setMenuOpen(false)}
             >
               Статьи
             </Link>
             <Link
               href="/research"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+              className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
               onClick={() => setMenuOpen(false)}
             >
               Исследования
             </Link>
             <Link
               href="/tools"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+              className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
               onClick={() => setMenuOpen(false)}
             >
               Инструменты
             </Link>
             <Link
               href="/shop"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+              className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
               onClick={() => setMenuOpen(false)}
             >
               Магазин
             </Link>
             <Link
               href="/about"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+              className="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
               onClick={() => setMenuOpen(false)}
             >
               О нас

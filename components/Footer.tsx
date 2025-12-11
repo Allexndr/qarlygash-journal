@@ -3,23 +3,23 @@ import Image from 'next/image'
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-50 border-t border-gray-200 mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="bg-gray-50 border-t border-gray-200 mt-16 sm:mt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Logo and Description */}
           <div>
-            <Link href="/" className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 relative flex-shrink-0">
+            <Link href="/" className="flex items-center space-x-2 sm:space-x-3 mb-4">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 relative flex-shrink-0">
                 <Image
                   src="/logo.png"
                   alt="Қарлығаш"
-                  width={40}
-                  height={40}
-                  className="object-contain"
+                  width={32}
+                  height={32}
+                  className="object-contain sm:w-[40px] sm:h-[40px]"
                   unoptimized
                 />
               </div>
-              <span className="text-xl font-bold text-gray-900">Қарлығаш</span>
+              <span className="text-lg sm:text-xl font-bold text-gray-900">Қарлығаш</span>
             </Link>
             <p className="text-gray-600 text-sm">
               о вашем психологическом благополучии
@@ -31,7 +31,7 @@ export default function Footer() {
             <h3 className="font-semibold text-gray-900 mb-4">Навигация</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/about" className="text-gray-600 hover:text-primary-600 transition-colors text-sm">
+                <Link href="/about" className="text-gray-600 hover:text-primary-600 transition-colors text-xs sm:text-sm">
                   О нас
                 </Link>
               </li>

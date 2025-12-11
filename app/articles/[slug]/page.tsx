@@ -69,21 +69,21 @@ export default async function ArticlePage({ params }: { params: { slug: string }
       </div>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-800 via-primary-900 to-accent-900 text-white py-20 mb-8">
+      <section className="relative bg-gradient-to-br from-primary-800 via-primary-900 to-accent-900 text-white py-12 sm:py-16 md:py-20 mb-6 sm:mb-8">
         <div className="absolute inset-0 bg-[url('/hero-pattern.svg')] opacity-10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">{article.title}</h1>
-            <div className="flex items-center space-x-6 text-primary-100">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight">{article.title}</h1>
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-primary-100">
               {author && (
                 <div className="flex items-center space-x-2">
-                  <User size={20} />
-                  <span>{author.name}</span>
+                  <User size={18} className="sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base">{author.name}</span>
                 </div>
               )}
               <div className="flex items-center space-x-2">
-                <Clock size={20} />
-                <span>{article.readingTime} минут</span>
+                <Clock size={18} className="sm:w-5 sm:h-5" />
+                <span className="text-sm sm:text-base">{article.readingTime} минут</span>
               </div>
             </div>
           </div>
@@ -110,7 +110,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
       </div>
 
       {/* Article Content */}
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16">
         <div
           className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:text-gray-900"
           dangerouslySetInnerHTML={{ __html: article.content }}
