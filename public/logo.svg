@@ -1,0 +1,51 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Stylized symmetrical bird logo -->
+  <!-- Central head/crest -->
+  <path d="M50 0 L52 5 L50 10 L48 5 Z" fill="black"/>
+  
+  <!-- Central body -->
+  <path d="M48 10 L48 20 L50 25 L52 20 L52 10 Z" fill="black"/>
+  
+  <!-- Left wing with scroll -->
+  <path d="M48 18 
+           C35 20, 25 30, 18 42
+           C15 48, 12 55, 10 62
+           C12 68, 15 72, 18 75
+           C25 80, 35 82, 42 78
+           C45 75, 46 70, 45 65
+           C44 60, 42 55, 43 50
+           C44 45, 46 40, 48 35
+           C48 30, 48 25, 48 20 Z" fill="black"/>
+  
+  <!-- Left wing scroll/spiral -->
+  <ellipse cx="42" cy="45" rx="8" ry="6" fill="black"/>
+  <path d="M42 39 
+           C38 39, 35 42, 36 45
+           C37 48, 40 48, 42 45 Z" fill="white"/>
+  
+  <!-- Right wing with scroll -->
+  <path d="M52 18 
+           C65 20, 75 30, 82 42
+           C85 48, 88 55, 90 62
+           C88 68, 85 72, 82 75
+           C75 80, 65 82, 58 78
+           C55 75, 54 70, 55 65
+           C56 60, 58 55, 57 50
+           C56 45, 54 40, 52 35
+           C52 30, 52 25, 52 20 Z" fill="black"/>
+  
+  <!-- Right wing scroll/spiral -->
+  <ellipse cx="58" cy="45" rx="8" ry="6" fill="black"/>
+  <path d="M58 39 
+           C62 39, 65 42, 64 45
+           C63 48, 60 48, 58 45 Z" fill="white"/>
+  
+  <!-- Tail/base - two pointed shapes -->
+  <path d="M50 75 
+           C45 80, 40 85, 35 88
+           C38 90, 42 88, 45 86
+           C47 84, 48 82, 50 80
+           C52 82, 53 84, 55 86
+           C58 88, 62 90, 65 88
+           C60 85, 55 80, 50 75 Z" fill="black"/>
+</svg>
