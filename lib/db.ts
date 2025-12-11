@@ -1,4 +1,5 @@
 import { getDatabase, isMongoConfigured } from './mongodb'
+import { ObjectId } from 'mongodb'
 import type { ArticleDocument } from '@/models/Article'
 import type { AuthorDocument } from '@/models/Article'
 import type { PageDocument, SiteSettingsDocument } from '@/models/Page'
@@ -282,13 +283,16 @@ export async function getSiteSettings() {
   
   if (!settings) {
     // Create default settings
-    settings = {
+    const defaultSettings: SiteSettingsDocument & { _id: ObjectId } = {
+      _id: new ObjectId(),
       siteName: 'Қарлығаш',
       siteDescription: 'Психологический журнал',
       updatedAt: new Date(),
-    } as SiteSettingsDocument
+    }
     await db.collection<SiteSettingsDocument>(COLLECTIONS.siteSettings)
-      .insertOne(settings)
+      .insertOne(defaultSettings)
+    settings = await db.collection<SiteSettingsDocument>(COLLECTIONS.siteSettings)
+      .findOne({ _id: defaultSettings._id })
   }
   
   return settings
