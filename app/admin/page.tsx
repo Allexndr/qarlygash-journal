@@ -8,7 +8,6 @@ import { FileText, Users, Eye, ArrowRight, Database, Loader2 } from "lucide-reac
 export default function AdminDashboard() {
   const [articles, setArticles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [seeding, setSeeding] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -26,23 +25,7 @@ export default function AdminDashboard() {
     }
   }
 
-  async function handleSeed() {
-    if (!confirm("Это действие заменит текущие статьи на 2 тестовые статьи про депрессию. Продолжить?")) return;
-    setSeeding(true);
-    try {
-      const res = await fetch("/api/admin/seed", { method: "POST" });
-      if (res.ok) {
-        alert("Статьи восстановлены!");
-        fetchData();
-      } else {
-        alert("Ошибка при восстановлении");
-      }
-    } catch (e) {
-      alert("Ошибка при восстановлении");
-    } finally {
-      setSeeding(false);
-    }
-  }
+
 
   if (loading) {
     return (
@@ -118,7 +101,7 @@ export default function AdminDashboard() {
           ))}
           {articles.length === 0 && (
             <div className="p-8 text-center text-gray-500">
-              Статей пока нет. Нажмите кнопку &quot;Восстановить статьи&quot; или создайте новую.
+              Статей пока нет. Создайте свою первую статью.
             </div>
           )}
         </div>
