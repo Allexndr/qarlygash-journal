@@ -5,6 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Script from 'next/script'
 import { NextAuthProvider } from '@/components/NextAuthProvider'
+import { ConditionalLayout } from '@/components/ConditionalLayout'
 
 const inter = Inter({ subsets: ['latin', 'cyrillic'], variable: '--font-inter' })
 
@@ -82,11 +83,9 @@ export default function RootLayout({
       </head>
       <body>
         <NextAuthProvider>
-          <Header />
-          <main className="min-h-screen">
+          <ConditionalLayout>
             {children}
-          </main>
-          <Footer />
+          </ConditionalLayout>
         </NextAuthProvider>
       </body>
     </html>

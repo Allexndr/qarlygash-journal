@@ -67,11 +67,6 @@ export default function Footer() {
 
         <div className="mt-8 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
           <p>&copy; {new Date().getFullYear()} Қарлығаш. Все права защищены.</p>
-          <div className="mt-2">
-            <Link href="/auth/login" className="text-gray-300 hover:text-gray-500 text-xs transition-colors">
-              Вход для администратора
-            </Link>
-          </div>
         </div>
       </div>
     </footer>
