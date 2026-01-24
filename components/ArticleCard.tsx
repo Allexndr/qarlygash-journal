@@ -22,7 +22,7 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
             />
           </div>
         )}
-        
+
         <div className="flex flex-wrap gap-2 mb-3">
           {article.tags.slice(0, 3).map((tag) => (
             <span key={tag} className="tag text-xs">
@@ -31,9 +31,8 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
           ))}
         </div>
 
-        <h2 className={`font-bold mb-2 group-hover:text-primary-600 transition-colors leading-tight ${
-          featured ? 'text-xl sm:text-2xl' : 'text-lg sm:text-xl'
-        }`}>
+        <h2 className={`font-bold mb-2 group-hover:text-primary-600 transition-colors leading-tight ${featured ? 'text-xl sm:text-2xl' : 'text-lg sm:text-xl'
+          }`}>
           {article.title}
         </h2>
 
