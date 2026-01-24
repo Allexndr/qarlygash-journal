@@ -162,6 +162,7 @@ export const TiptapEditor = ({ content, onChange }: TiptapEditorProps) => {
     useEffect(() => setMounted(true), []);
 
     const editor = useEditor({
+        immediatelyRender: false,
         extensions: [
             StarterKit,
             Image,
