@@ -24,9 +24,9 @@ export default function AdminLayout({
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     const navigation = [
-        { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-        { name: "Articles", href: "/admin/articles", icon: FileText },
-        { name: "Settings", href: "/admin/settings", icon: Settings },
+        { name: "Главная", href: "/admin", icon: LayoutDashboard },
+        { name: "Статьи", href: "/admin/articles", icon: FileText },
+        { name: "Настройки", href: "/admin/settings", icon: Settings },
     ];
 
     return (
@@ -40,7 +40,7 @@ export default function AdminLayout({
                 <div className="h-16 flex items-center justify-between px-6 border-b border-gray-100">
                     {isSidebarOpen ? (
                         <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent truncate">
-                            Admin Panel
+                            Админ-панель
                         </span>
                     ) : null}
                     <button
@@ -59,8 +59,8 @@ export default function AdminLayout({
                                 key={item.name}
                                 href={item.href}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group relative overflow-hidden ${isActive
-                                        ? "text-blue-600 bg-blue-50"
-                                        : "text-gray-600 hover:bg-gray-50"
+                                    ? "text-blue-600 bg-blue-50"
+                                    : "text-gray-600 hover:bg-gray-50"
                                     }`}
                             >
                                 {isActive && (
@@ -86,7 +86,7 @@ export default function AdminLayout({
                         className={`w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-colors ${!isSidebarOpen && "justify-center"}`}
                     >
                         <LogOut size={20} />
-                        {isSidebarOpen && <span className="font-medium">Sign Out</span>}
+                        {isSidebarOpen && <span className="font-medium">Выйти</span>}
                     </button>
                 </div>
             </MotionDiv>

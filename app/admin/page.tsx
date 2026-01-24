@@ -9,16 +9,16 @@ export default async function AdminDashboard() {
   const totalViews = articles.reduce((acc, curr) => acc + (curr.views || 0), 0);
 
   const stats = [
-    { label: "Total Articles", value: articles.length, icon: FileText, color: "bg-blue-500" },
-    { label: "Published", value: publishedCount, icon: Users, color: "bg-green-500" },
-    { label: "Total Views", value: totalViews, icon: Eye, color: "bg-purple-500" },
+    { label: "Всего статей", value: articles.length, icon: FileText, color: "bg-blue-500" },
+    { label: "Опубликовано", value: publishedCount, icon: Users, color: "bg-green-500" },
+    { label: "Просмотров", value: totalViews, icon: Eye, color: "bg-purple-500" },
   ];
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500">Welcome back to the admin panel</p>
+        <h1 className="text-3xl font-bold text-gray-900">Дашборд</h1>
+        <p className="text-gray-500">Добро пожаловать в админ-панель</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -45,9 +45,9 @@ export default async function AdminDashboard() {
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">Recent Articles</h2>
+          <h2 className="text-lg font-semibold text-gray-900">Недавние статьи</h2>
           <Link href="/admin/articles" className="text-blue-600 text-sm font-medium hover:underline flex items-center gap-1">
-            View All <ArrowRight size={16} />
+            Смотреть все <ArrowRight size={16} />
           </Link>
         </div>
         <div className="divide-y divide-gray-100">
@@ -63,13 +63,13 @@ export default async function AdminDashboard() {
                   ? 'bg-green-100 text-green-700'
                   : 'bg-yellow-100 text-yellow-700'
                 }`}>
-                {article.status}
+                {article.status === 'published' ? 'Опубликовано' : (article.status === 'draft' ? 'Черновик' : article.status)}
               </span>
             </div>
           ))}
           {articles.length === 0 && (
             <div className="p-8 text-center text-gray-500">
-              No articles found. Start writing!
+              Статей пока нет. Начните писать!
             </div>
           )}
         </div>

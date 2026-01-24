@@ -28,7 +28,7 @@ interface TiptapEditorProps {
 const MenuBar = ({ editor }: { editor: any }) => {
     const addImage = useCallback(() => {
         if (editor) {
-            const url = window.prompt('URL')
+            const url = window.prompt('Введите URL')
             if (url) {
                 editor.chain().focus().setImage({ src: url }).run()
             }
@@ -43,11 +43,12 @@ const MenuBar = ({ editor }: { editor: any }) => {
         try {
             const { url } = await put(file.name, file, {
                 access: 'public',
+                token: process.env.NEXT_PUBLIC_BLOB_READ_WRITE_TOKEN,
             });
             editor.chain().focus().setImage({ src: url }).run();
         } catch (error) {
             console.error("Error uploading image:", error);
-            alert("Failed to upload image");
+            alert("Ошибка загрузки изображения");
         }
     }
 
