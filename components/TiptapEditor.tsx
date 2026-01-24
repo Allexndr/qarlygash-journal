@@ -67,40 +67,40 @@ const MenuBar = ({ editor }: { editor: any }) => {
     }
 
     return (
-        <div className="border-b border-gray-200 dark:border-zinc-700 p-2 flex flex-wrap gap-2 sticky top-0 bg-white dark:bg-zinc-800 z-10">
+        <div className="border-b border-gray-200 p-2 flex flex-wrap gap-2 sticky top-0 bg-white z-10">
             <button
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 disabled={!editor.can().chain().focus().toggleBold().run()}
-                className={`p-2 rounded-lg transition-colors ${editor.isActive('bold') ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-400'}`}
+                className={`p-2 rounded-lg transition-colors ${editor.isActive('bold') ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100 text-gray-600'}`}
             >
                 <Bold size={18} />
             </button>
             <button
                 onClick={() => editor.chain().focus().toggleItalic().run()}
                 disabled={!editor.can().chain().focus().toggleItalic().run()}
-                className={`p-2 rounded-lg transition-colors ${editor.isActive('italic') ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-400'}`}
+                className={`p-2 rounded-lg transition-colors ${editor.isActive('italic') ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100 text-gray-600'}`}
             >
                 <Italic size={18} />
             </button>
             <button
                 onClick={() => editor.chain().focus().toggleStrike().run()}
                 disabled={!editor.can().chain().focus().toggleStrike().run()}
-                className={`p-2 rounded-lg transition-colors ${editor.isActive('strike') ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-400'}`}
+                className={`p-2 rounded-lg transition-colors ${editor.isActive('strike') ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100 text-gray-600'}`}
             >
                 <Strikethrough size={18} />
             </button>
 
-            <div className="w-px h-6 bg-gray-200 dark:bg-zinc-700 mx-1 self-center" />
+            <div className="w-px h-6 bg-gray-200 mx-1 self-center" />
 
             <button
                 onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-                className={`p-2 rounded-lg transition-colors ${editor.isActive('heading', { level: 2 }) ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-400'}`}
+                className={`p-2 rounded-lg transition-colors ${editor.isActive('heading', { level: 2 }) ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100 text-gray-600'}`}
             >
                 <Heading1 size={18} />
             </button>
             <button
                 onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-                className={`p-2 rounded-lg transition-colors ${editor.isActive('heading', { level: 3 }) ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-400'}`}
+                className={`p-2 rounded-lg transition-colors ${editor.isActive('heading', { level: 3 }) ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100 text-gray-600'}`}
             >
                 <Heading2 size={18} />
             </button>
@@ -109,19 +109,19 @@ const MenuBar = ({ editor }: { editor: any }) => {
 
             <button
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
-                className={`p-2 rounded-lg transition-colors ${editor.isActive('bulletList') ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-400'}`}
+                className={`p-2 rounded-lg transition-colors ${editor.isActive('bulletList') ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100 text-gray-600'}`}
             >
                 <List size={18} />
             </button>
             <button
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                className={`p-2 rounded-lg transition-colors ${editor.isActive('orderedList') ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-400'}`}
+                className={`p-2 rounded-lg transition-colors ${editor.isActive('orderedList') ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100 text-gray-600'}`}
             >
                 <ListOrdered size={18} />
             </button>
             <button
                 onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                className={`p-2 rounded-lg transition-colors ${editor.isActive('blockquote') ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-400'}`}
+                className={`p-2 rounded-lg transition-colors ${editor.isActive('blockquote') ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100 text-gray-600'}`}
             >
                 <Quote size={18} />
             </button>
@@ -130,7 +130,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
 
             <button
                 onClick={handleImageUpload}
-                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-400 transition-colors"
+                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors"
             >
                 <ImageIcon size={18} />
             </button>
@@ -140,7 +140,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
             <button
                 onClick={() => editor.chain().focus().undo().run()}
                 disabled={!editor.can().chain().focus().undo().run()}
-                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-400 transition-colors disabled:opacity-50"
+                className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors disabled:opacity-50"
             >
                 <Undo size={18} />
             </button>
@@ -181,7 +181,7 @@ export const TiptapEditor = ({ content, onChange }: TiptapEditorProps) => {
     if (!mounted) return <div className="min-h-[300px] bg-gray-50 animate-pulse rounded-lg" />;
 
     return (
-        <div className="border border-gray-200 dark:border-zinc-700 rounded-lg overflow-hidden bg-white dark:bg-zinc-900">
+        <div className="border border-gray-200 rounded-lg overflow-hidden bg-white">
             <MenuBar editor={editor} />
             <EditorContent editor={editor} />
         </div>
