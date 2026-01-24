@@ -4,7 +4,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import { useCallback, useState, useEffect } from "react";
-import { put } from "@vercel/blob";
+import { upload } from "@vercel/blob/client";
 import {
     Bold,
     Italic,
@@ -41,14 +41,15 @@ const MenuBar = ({ editor }: { editor: any }) => {
 
     const uploadImage = async (file: File) => {
         try {
-            const { url } = await put(file.name, file, {
+            const newBlob = await upload(file.name, file, {
                 access: 'public',
-                token: process.env.NEXT_PUBLIC_BLOB_READ_WRITE_TOKEN,
-            });
-            editor.chain().focus().setImage({ src: url }).run();
+                handleUploadUrl: '/api/admin/upload',
+                addRandomSuffix: true,
+            } as any);
+            editor.chain().focus().setImage({ src: newBlob.url }).run();
         } catch (error) {
             console.error("Error uploading image:", error);
-            alert("Ошибка загрузки изображения");
+            alert("Ошибка загрузки изображения: " + (error as Error).message);
         }
     }
 
