@@ -46,6 +46,12 @@ export default function Header() {
             <Link href="/about" className="text-gray-700 hover:text-primary-600 transition-colors font-medium">
               О нас
             </Link>
+            <Link
+              href="/auth/login"
+              className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium text-sm"
+            >
+              Войти
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -95,6 +101,13 @@ export default function Header() {
               onClick={() => setMenuOpen(false)}
             >
               О нас
+            </Link>
+            <Link
+              href="/auth/login"
+              className="block px-3 py-2 text-primary-600 hover:bg-primary-50 rounded-lg transition-colors font-medium"
+              onClick={() => setMenuOpen(false)}
+            >
+              Войти
             </Link>
           </nav>
         )}
