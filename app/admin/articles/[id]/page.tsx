@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { TiptapEditor } from "@/components/TiptapEditor";
-import { put } from "@vercel/blob";
+import { upload } from "@vercel/blob/client";
 import { MotionDiv } from "@/components/MotionDiv";
 import { ArrowLeft, Save, Upload, Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -61,14 +61,14 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
         setUploading(true);
         try {
             const file = e.target.files[0];
-            const { url } = await put(file.name, file, {
+            const newBlob = await upload(file.name, file, {
                 access: 'public',
-                token: process.env.NEXT_PUBLIC_BLOB_READ_WRITE_TOKEN
+                handleUploadUrl: '/api/admin/upload',
             });
-            setCoverImage(url);
+            setCoverImage(newBlob.url);
         } catch (error) {
             console.error("Upload failed", error);
-            alert("Ошибка загрузки изображения");
+            alert("Ошибка загрузки изображения: " + (error as Error).message);
         } finally {
             setUploading(false);
         }

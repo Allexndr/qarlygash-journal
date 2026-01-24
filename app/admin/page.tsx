@@ -126,7 +126,7 @@ export default function AdminDashboard() {
           ))}
           {articles.length === 0 && (
             <div className="p-8 text-center text-gray-500">
-              Статей пока нет. Нажмите кнопку "Восстановить примеры статей", чтобы заполнить базу данных.
+              Статей пока нет. Нажмите кнопку &quot;Очистить все статьи&quot; для сброса или создайте новую.
             </div>
           )}
         </div>
