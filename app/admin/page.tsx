@@ -27,18 +27,18 @@ export default function AdminDashboard() {
   }
 
   async function handleSeed() {
-    if (!confirm("Это действие заменит все текущие статьи и авторов в базе данных на стандартные. Продолжить?")) return;
+    if (!confirm("Это действие УДАЛИТ все текущие статьи и авторов из базы данных. Вы уверены?")) return;
     setSeeding(true);
     try {
       const res = await fetch("/api/admin/seed", { method: "POST" });
       if (res.ok) {
-        alert("База данных успешно инициализирована!");
+        alert("База данных очищена!");
         fetchData();
       } else {
-        alert("Ошибка при инициализации");
+        alert("Ошибка при очистке");
       }
     } catch (e) {
-      alert("Ошибка при инициализации");
+      alert("Ошибка при очистке");
     } finally {
       setSeeding(false);
     }
@@ -71,10 +71,10 @@ export default function AdminDashboard() {
         <button
           onClick={handleSeed}
           disabled={seeding}
-          className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-600 disabled:opacity-50"
+          className="flex items-center gap-2 px-4 py-2 border border-red-200 rounded-lg hover:bg-red-50 transition-colors text-sm text-red-600 disabled:opacity-50"
         >
           {seeding ? <Loader2 size={16} className="animate-spin" /> : <Database size={16} />}
-          <span>Восстановить примеры статей</span>
+          <span>Очистить все статьи</span>
         </button>
       </div>
 
