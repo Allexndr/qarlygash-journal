@@ -280,7 +280,7 @@ export async function getSiteSettings() {
   const db = await getDatabase()
   let settings = await db.collection<SiteSettingsDocument>(COLLECTIONS.siteSettings)
     .findOne({})
-  
+
   if (!settings) {
     // Create default settings
     const defaultSettings: SiteSettingsDocument & { _id: ObjectId } = {
@@ -294,7 +294,7 @@ export async function getSiteSettings() {
     settings = await db.collection<SiteSettingsDocument>(COLLECTIONS.siteSettings)
       .findOne({ _id: defaultSettings._id })
   }
-  
+
   return settings
 }
 
@@ -371,7 +371,7 @@ export async function getTools(filter?: { status?: string }) {
   const db = await getDatabase()
   const query: any = {}
   if (filter?.status) query.status = filter.status
-  
+
   return db.collection<SelfHelpToolDocument>(COLLECTIONS.tools)
     .find(query)
     .sort({ createdAt: -1 })
