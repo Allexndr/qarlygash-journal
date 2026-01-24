@@ -36,7 +36,7 @@ export default function NewArticlePage() {
       setCoverImage(url);
     } catch (error) {
       console.error("Upload failed", error);
-      alert("Failed to upload image");
+      alert("Ошибка загрузки изображения");
     } finally {
       setUploading(false);
     }
@@ -62,7 +62,7 @@ export default function NewArticlePage() {
 
   const handleSave = async () => {
     if (!title || !content || !slug) {
-      alert("Please fill in title, slug and content");
+      alert("Пожалуйста, заполните заголовок, URL и содержимое статьи");
       return;
     }
     setSaving(true);
@@ -97,7 +97,7 @@ export default function NewArticlePage() {
       router.push("/admin/articles");
     } catch (error) {
       console.error("Failed to save", error);
-      alert("Failed to save article. Please try again.");
+      alert("Не удалось сохранить статью. Пожалуйста, попробуйте еще раз.");
     } finally {
       setSaving(false);
     }
