@@ -68,14 +68,6 @@ export default function AdminDashboard() {
           <h1 className="text-3xl font-bold text-gray-900">Дашборд</h1>
           <p className="text-gray-500">Добро пожаловать в админ-панель</p>
         </div>
-        <button
-          onClick={handleSeed}
-          disabled={seeding}
-          className="flex items-center gap-2 px-4 py-2 border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm text-blue-600 disabled:opacity-50"
-        >
-          {seeding ? <Loader2 size={16} className="animate-spin" /> : <Database size={16} />}
-          <span>Восстановить статьи</span>
-        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
