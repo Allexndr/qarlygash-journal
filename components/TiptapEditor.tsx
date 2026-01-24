@@ -3,7 +3,7 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
-import { useCallback } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { put } from "@vercel/blob";
 import {
     Bold,
@@ -154,7 +154,12 @@ const MenuBar = ({ editor }: { editor: any }) => {
     );
 };
 
+
+
 export const TiptapEditor = ({ content, onChange }: TiptapEditorProps) => {
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -170,6 +175,8 @@ export const TiptapEditor = ({ content, onChange }: TiptapEditorProps) => {
             onChange(editor.getHTML());
         },
     });
+
+    if (!mounted) return <div className="min-h-[300px] bg-gray-50 animate-pulse rounded-lg" />;
 
     return (
         <div className="border border-gray-200 dark:border-zinc-700 rounded-lg overflow-hidden bg-white dark:bg-zinc-900">

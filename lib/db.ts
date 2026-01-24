@@ -19,9 +19,64 @@ const COLLECTIONS = {
 } as const
 
 // -------- Mock data for development when MongoDB is not configured --------
-const mockAuthors: AuthorDocument[] = []
+const mockAuthors: AuthorDocument[] = [
+  {
+    _id: new ObjectId('65b0e1a2f1a2b3c4d5e6f001'),
+    name: 'Редакция Қарлығаш',
+    credentials: 'Психологическая помощь подросткам',
+    bio: 'Команда специалистов проекта Қарлығаш',
+    createdAt: new Date('2026-01-24'),
+  },
+]
 
-const mockArticles: ArticleDocument[] = []
+const mockArticles: ArticleDocument[] = [
+  {
+    _id: new ObjectId('69b0e1a2f1a2b3c4d5e6f011'),
+    title: 'Депрессия у школьников: как распознать и чем помочь',
+    slug: 'depressiya-u-shkolnikov-priznaki',
+    content: `<h2>Как понять, что у ребенка депрессия?</h2>
+      <p>Многие родители ошибочно принимают депрессию за лень или временную хандру. Однако клиническая депрессия у подростков — это серьезное состояние, которое мешает учебе и социальной жизни.</p>
+      <h3>Основные признаки:</h3>
+      <ul>
+        <li>Потеря интереса к хобби, которые раньше радовали</li>
+        <li>Постоянное чувство усталости и нарушения сна</li>
+        <li>Резкая смена аппетита (отказ от еды или переедание)</li>
+        <li>Высказывания о собственной ненужности</li>
+      </ul>
+      <p>Если вы заметили эти симптомы дольше двух недель, это повод обратиться к психологу.</p>`,
+    excerpt: 'Многие родители принимают депрессию за лень. Узнайте основные признаки и способы поддержки подростков в этот период.',
+    authorId: new ObjectId('65b0e1a2f1a2b3c4d5e6f001'),
+    tags: ['Школа', 'Депрессия', 'Подростки', 'Психология'],
+    readingTime: 5,
+    publishedAt: new Date('2026-01-24T10:00:00Z'),
+    status: 'published',
+    featured: true,
+    popular: true,
+    createdAt: new Date('2026-01-24'),
+  },
+  {
+    _id: new ObjectId('69b0e1a2f1a2b3c4d5e6f012'),
+    title: 'Школьный стресс и его влияние на ментальное здоровье',
+    slug: 'shkolnyj-stress-vliyanie',
+    content: `<h2>Почему школа становится источником стресса?</h2>
+      <p>Экзамены, конфликты со сверстниками и завышенные ожидания учителей могут спровоцировать развитие депрессивных состояний.</p>
+      <h3>Факторы риска:</h3>
+      <ol>
+        <li>Буллинг (травля) в коллективе</li>
+        <li>Страх не оправдать ожидания родителей</li>
+        <li>Отсутствие качественного отдыха и перегрузки</li>
+      </ol>
+      <p>Важно создать для ребенка безопасную среду дома, где он сможет поделиться своими переживаниями без страха осуждения.</p>`,
+    excerpt: 'Разбираем, как учебная нагрузка и атмосфера в классе могут повлиять на психологическое состояние подростка.',
+    authorId: new ObjectId('65b0e1a2f1a2b3c4d5e6f001'),
+    tags: ['Школа', 'Стресс', 'Ментальное здоровье'],
+    readingTime: 6,
+    publishedAt: new Date('2026-01-24T12:00:00Z'),
+    status: 'published',
+    popular: true,
+    createdAt: new Date('2026-01-24'),
+  },
+]
 
 const mockTools: SelfHelpToolDocument[] = [
   {
@@ -146,7 +201,13 @@ export async function getArticleById(id: string) {
 
 export async function createArticle(article: Omit<ArticleDocument, '_id' | 'createdAt'>) {
   if (!isMongoConfigured) {
-    throw new Error('MongoDB is not configured. Add MONGODB_URI to .env.local')
+    const newArticle = {
+      ...article,
+      _id: new ObjectId(),
+      createdAt: new Date(),
+    } as ArticleDocument;
+    mockArticles.push(newArticle);
+    return { insertedId: newArticle._id };
   }
   const db = await getDatabase()
   return db.collection<ArticleDocument>(COLLECTIONS.articles)

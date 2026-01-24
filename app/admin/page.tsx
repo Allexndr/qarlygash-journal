@@ -27,18 +27,18 @@ export default function AdminDashboard() {
   }
 
   async function handleSeed() {
-    if (!confirm("Это действие УДАЛИТ все текущие статьи и авторов из базы данных. Вы уверены?")) return;
+    if (!confirm("Это действие заменит текущие статьи на 2 тестовые статьи про депрессию. Продолжить?")) return;
     setSeeding(true);
     try {
       const res = await fetch("/api/admin/seed", { method: "POST" });
       if (res.ok) {
-        alert("База данных очищена!");
+        alert("Статьи восстановлены!");
         fetchData();
       } else {
-        alert("Ошибка при очистке");
+        alert("Ошибка при восстановлении");
       }
     } catch (e) {
-      alert("Ошибка при очистке");
+      alert("Ошибка при восстановлении");
     } finally {
       setSeeding(false);
     }
@@ -71,10 +71,10 @@ export default function AdminDashboard() {
         <button
           onClick={handleSeed}
           disabled={seeding}
-          className="flex items-center gap-2 px-4 py-2 border border-red-200 rounded-lg hover:bg-red-50 transition-colors text-sm text-red-600 disabled:opacity-50"
+          className="flex items-center gap-2 px-4 py-2 border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm text-blue-600 disabled:opacity-50"
         >
           {seeding ? <Loader2 size={16} className="animate-spin" /> : <Database size={16} />}
-          <span>Очистить все статьи</span>
+          <span>Восстановить статьи</span>
         </button>
       </div>
 
@@ -126,7 +126,7 @@ export default function AdminDashboard() {
           ))}
           {articles.length === 0 && (
             <div className="p-8 text-center text-gray-500">
-              Статей пока нет. Нажмите кнопку &quot;Очистить все статьи&quot; для сброса или создайте новую.
+              Статей пока нет. Нажмите кнопку &quot;Восстановить статьи&quot; или создайте новую.
             </div>
           )}
         </div>
