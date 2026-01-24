@@ -8,6 +8,20 @@ export default async function Home() {
   const articlesData = await getArticles({ status: 'published' });
   const articles = await Promise.all(articlesData.map(mapArticle));
 
+  if (articles.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 text-center">
+        <h1 className="text-3xl font-bold mb-4">Добро пожаловать в Қарлығаш</h1>
+        <p className="text-gray-600 max-w-md">
+          Статей пока нет. Зайдите в админ-панель, чтобы добавить свою первую статью.
+        </p>
+        <Link href="/admin/articles/new" className="mt-8 px-6 py-2 bg-primary-600 text-white rounded-lg">
+          Написать статью
+        </Link>
+      </div>
+    );
+  }
+
   const featuredArticle = articles.find(a => a.featured) || articles[0];
   const popularArticles = articles.filter(a => a.popular).slice(0, 3);
   const recentArticles = articles.slice(0, 3);
