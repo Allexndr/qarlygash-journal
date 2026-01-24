@@ -1,45 +1,44 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getArticles, createArticle } from '@/lib/db'
-import { ArticleDocument } from '@/models/Article'
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { createArticle, getArticles } from "@/lib/db";
 
-export async function GET(request: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const searchParams = request.nextUrl.searchParams
-    const status = searchParams.get('status')
-    const featured = searchParams.get('featured') === 'true'
-    const popular = searchParams.get('popular') === 'true'
-
-    const filter: any = {}
-    if (status) filter.status = status
-    if (featured) filter.featured = true
-    if (popular) filter.popular = true
-
-    const articles = await getArticles(filter)
-    return NextResponse.json(articles)
+    const { searchParams } = new URL(req.url);
+    const articles = await getArticles(); // Add filtering if needed
+    return NextResponse.json(articles);
   } catch (error) {
-    console.error('Error fetching articles:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch articles' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: "Failed to fetch articles" }, { status: 500 });
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const body = await request.json()
-    const article = await createArticle({
+    const session = await getServerSession(authOptions);
+
+    // Check if user is admin
+    if (!session || (session.user as any).role !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const body = await req.json();
+
+    // Validate body
+    if (!body.title || !body.content || !body.slug) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    const result = await createArticle({
       ...body,
-      publishedAt: body.publishedAt ? new Date(body.publishedAt) : new Date(),
-    } as ArticleDocument)
-    
-    return NextResponse.json(article, { status: 201 })
+      authorId: session.user.id, // Assuming authorId is string or ObjectId compatible
+      views: 0,
+      publishedAt: new Date(), // Or use body.publishedAt if scheduled
+    });
+
+    return NextResponse.json(result, { status: 201 });
   } catch (error) {
-    console.error('Error creating article:', error)
-    return NextResponse.json(
-      { error: 'Failed to create article' },
-      { status: 500 }
-    )
+    console.error("Error creating article:", error);
+    return NextResponse.json({ error: "Failed to create article" }, { status: 500 });
   }
 }
-
