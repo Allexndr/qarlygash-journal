@@ -71,13 +71,19 @@ function mockFilterArticles(filter?: { status?: string; featured?: boolean; popu
 }
 
 export async function mapArticle(doc: any): Promise<any> {
-  const authorDoc = await getAuthorById(doc.authorId.toString())
-  const author = {
-    id: authorDoc?._id?.toString() || '',
-    name: authorDoc?.name || '',
-    bio: authorDoc?.bio,
-    credentials: authorDoc?.credentials,
-    photo: authorDoc?.photo,
+  let author: any = { id: '', name: 'Аноним', bio: '', credentials: '', photo: '' };
+
+  if (doc.authorId) {
+    const authorDoc = await getAuthorById(doc.authorId.toString())
+    if (authorDoc) {
+      author = {
+        id: authorDoc._id?.toString() || '',
+        name: authorDoc.name || '',
+        bio: authorDoc.bio,
+        credentials: authorDoc.credentials,
+        photo: authorDoc.photo,
+      }
+    }
   }
 
   return {
