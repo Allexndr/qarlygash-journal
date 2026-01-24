@@ -50,7 +50,7 @@ function LoginForm() {
             >
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                        Админ панель
+                        Админ-панель
                     </h1>
                     <p className="text-gray-500 mt-2">
                         Войдите для управления контентом
@@ -124,7 +124,7 @@ function LoginForm() {
 
 export default function LoginPage() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Загрузка...</div>}>
             <LoginForm />
         </Suspense>
     );
