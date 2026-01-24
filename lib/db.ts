@@ -143,19 +143,20 @@ export async function mapArticle(doc: any): Promise<any> {
 
   return {
     id: doc._id?.toString() || '',
-    title: doc.title,
-    slug: doc.slug,
-    content: doc.content,
-    excerpt: doc.excerpt,
+    title: doc.title || 'Без названия',
+    slug: doc.slug || `post-${Date.now()}`,
+    content: doc.content || '',
+    excerpt: doc.excerpt || '',
     author: author,
-    tags: doc.tags,
-    readingTime: doc.readingTime,
-    publishedAt: doc.publishedAt.toISOString(),
-    updatedAt: doc.updatedAt?.toISOString(),
-    heroImage: doc.heroImage,
-    featured: doc.featured,
-    popular: doc.popular,
-    views: doc.views,
+    tags: Array.isArray(doc.tags) ? doc.tags : [],
+    readingTime: doc.readingTime || 5,
+    publishedAt: (doc.publishedAt instanceof Date ? doc.publishedAt : new Date()).toISOString(),
+    updatedAt: (doc.updatedAt instanceof Date ? doc.updatedAt : new Date()).toISOString(),
+    heroImage: doc.heroImage || null,
+    featured: !!doc.featured,
+    popular: !!doc.popular,
+    views: doc.views || 0,
+    status: doc.status || 'draft',
   }
 }
 

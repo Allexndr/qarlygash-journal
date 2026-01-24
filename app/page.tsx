@@ -4,6 +4,9 @@ import { Article, Author } from '@/types'
 import { MotionSection, MotionDiv } from '@/components/MotionDiv'
 import { getArticles, mapArticle } from '@/lib/db'
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function Home() {
   const articlesData = await getArticles({ status: 'published' });
   const articles = await Promise.all(articlesData.map(mapArticle));

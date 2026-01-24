@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { createArticle, getArticles, mapArticle } from "@/lib/db";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
@@ -43,12 +45,18 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
+    // Normalize status from legacy 'published' flag or missing 'status'
+    let status = body.status;
+    if (!status && body.published) status = 'published';
+    if (!status) status = 'published'; // Default to published for easy testing
+
     const result = await createArticle({
       ...body,
       title: body.title || "Untitled",
       slug: body.slug || `post-${Date.now()}`,
       content: body.content || "",
-      authorId: session.user.id, // Assuming authorId is string or ObjectId compatible
+      status: status,
+      authorId: session.user.id,
       views: 0,
       publishedAt: body.publishedAt ? new Date(body.publishedAt) : new Date(),
     });

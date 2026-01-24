@@ -24,7 +24,7 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
         )}
 
         <div className="flex flex-wrap gap-2 mb-3">
-          {article.tags.slice(0, 3).map((tag) => (
+          {Array.isArray(article.tags) && article.tags.slice(0, 3).map((tag) => (
             <span key={tag} className="tag text-xs">
               {tag}
             </span>
@@ -33,7 +33,7 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
 
         <h2 className={`font-bold mb-2 group-hover:text-primary-600 transition-colors leading-tight ${featured ? 'text-xl sm:text-2xl' : 'text-lg sm:text-xl'
           }`}>
-          {article.title}
+          {article.title || 'Без названия'}
         </h2>
 
         <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed text-sm sm:text-base">
@@ -44,19 +44,19 @@ export default function ArticleCard({ article, featured = false }: ArticleCardPr
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <div className="flex items-center space-x-1">
               <User size={14} className="sm:w-4 sm:h-4" />
-              <span className="text-xs sm:text-sm">{article.author.name}</span>
+              <span className="text-xs sm:text-sm">{article.author?.name || 'Аноним'}</span>
             </div>
             <div className="flex items-center space-x-1">
               <Clock size={14} className="sm:w-4 sm:h-4" />
-              <span className="text-xs sm:text-sm">{article.readingTime} мин</span>
+              <span className="text-xs sm:text-sm">{article.readingTime || 5} мин</span>
             </div>
           </div>
           <span className="text-gray-400 text-xs sm:text-sm">
-            {new Date(article.publishedAt).toLocaleDateString('ru-RU', {
+            {article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('ru-RU', {
               day: 'numeric',
               month: 'short',
               year: article.publishedAt.includes(new Date().getFullYear().toString()) ? undefined : 'numeric'
-            })}
+            }) : ''}
           </span>
         </div>
       </article>

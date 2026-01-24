@@ -1,5 +1,8 @@
 'use client'
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import { useState, useMemo, useEffect } from 'react'
 import ArticleCard from '@/components/ArticleCard'
 import { Search, Filter, Loader2 } from 'lucide-react'
