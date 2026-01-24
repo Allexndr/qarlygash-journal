@@ -1,90 +1,16 @@
 import Link from 'next/link'
 import ArticleCard from '@/components/ArticleCard'
-import { Article } from '@/types'
+import { Article, Author } from '@/types'
 import { MotionSection, MotionDiv } from '@/components/MotionDiv'
+import { getArticles, mapArticle } from '@/lib/db'
 
-// Mock data - в реальном приложении это будет из API/базы данных
-const featuredArticle: Article = {
-  id: '1',
-  title: 'Подростковая депрессия',
-  slug: 'podrostkovaya-depressiya',
-  content: '',
-  excerpt: 'Клиническая депрессия у подростков — это психическое расстройство, характеризующееся сниженным настроением, грустью, тоской, отчаянием и другими эмоциональными нарушениями.',
-  author: {
-    id: '1',
-    name: 'А.Скибидиева',
-  },
-  tags: ['Подростковая депрессия', 'Депрессия', 'Здоровье подростков', 'Кризис'],
-  readingTime: 12,
-  publishedAt: '2024-01-15',
-  featured: true,
-}
+export default async function Home() {
+  const articlesData = await getArticles({ status: 'published' });
+  const articles = await Promise.all(articlesData.map(mapArticle));
 
-const popularArticles: Article[] = [
-  {
-    id: '2',
-    title: 'Буллинг в школе: как помочь подростку',
-    slug: 'bulling-v-shkole',
-    content: '',
-    excerpt: 'Практические советы для родителей и педагогов по предотвращению и преодолению буллинга.',
-    author: {
-      id: '2',
-      name: 'Ю.Пак',
-    },
-    tags: ['Буллинг', 'Школа', 'Подростки'],
-    readingTime: 8,
-    publishedAt: '2024-01-10',
-    popular: true,
-  },
-  {
-    id: '3',
-    title: 'Профориентация подростков: современные подходы',
-    slug: 'proforientatsiya',
-    content: '',
-    excerpt: 'Как помочь подростку выбрать профессию в современном мире.',
-    author: {
-      id: '3',
-      name: 'Н.Постоева',
-    },
-    tags: ['Профориентация', 'Подростки'],
-    readingTime: 10,
-    publishedAt: '2024-01-05',
-    popular: true,
-  },
-]
-
-const recentArticles: Article[] = [
-  {
-    id: '4',
-    title: 'Коммуникации подростков с родителями',
-    slug: 'kommunikatsii-podrostkov',
-    content: '',
-    excerpt: 'Эффективные стратегии улучшения общения между подростками и родителями.',
-    author: {
-      id: '2',
-      name: 'Ю.Пак',
-    },
-    tags: ['Подростки', 'Родители', 'Коммуникации'],
-    readingTime: 7,
-    publishedAt: '2024-01-20',
-  },
-  {
-    id: '5',
-    title: 'Возрастные кризисы подросткового периода',
-    slug: 'vozrastnye-krizisy',
-    content: '',
-    excerpt: 'Понимание кризисов переходного возраста и способы их преодоления.',
-    author: {
-      id: '1',
-      name: 'А.Скибидиева',
-    },
-    tags: ['Кризис', 'Переходный возраст'],
-    readingTime: 9,
-    publishedAt: '2024-01-18',
-  },
-]
-
-export default function Home() {
+  const featuredArticle = articles.find(a => a.featured) || articles[0];
+  const popularArticles = articles.filter(a => a.popular).slice(0, 3);
+  const recentArticles = articles.slice(0, 3);
   return (
     <div className="min-h-screen">
       {/* Hero Section */}

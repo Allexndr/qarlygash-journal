@@ -1,33 +1,16 @@
 import ArticleCard from '@/components/ArticleCard'
 import { Article } from '@/types'
+import { getArticles, mapArticle } from '@/lib/db'
 
-// Mock data - в реальном приложении будет из API с фильтром по типу "исследование"
-const researchArticles: Article[] = [
-  {
-    id: '6',
-    title: 'Исследование буллинга в казахстанских школах',
-    slug: 'issledovanie-bullinga',
-    content: '',
-    excerpt: 'Результаты масштабного исследования распространенности буллинга среди подростков в школах Казахстана.',
-    author: { id: '2', name: 'Ю.Пак' },
-    tags: ['Исследование', 'Буллинг', 'Школа'],
-    readingTime: 15,
-    publishedAt: '2024-01-12',
-  },
-  {
-    id: '7',
-    title: 'Влияние социальных сетей на психическое здоровье подростков',
-    slug: 'sotsialnye-seti',
-    content: '',
-    excerpt: 'Анализ влияния социальных сетей на эмоциональное состояние и самооценку подростков.',
-    author: { id: '1', name: 'А.Скибидиева' },
-    tags: ['Исследование', 'Социальные сети', 'Психическое здоровье'],
-    readingTime: 18,
-    publishedAt: '2024-01-08',
-  },
-]
+export default async function ResearchPage() {
+  const articlesData = await getArticles({ status: 'published' });
+  const allArticles: Article[] = await Promise.all(articlesData.map(mapArticle));
 
-export default function ResearchPage() {
+  // Filter for research articles (those having 'Исследование' tag)
+  const researchArticles = allArticles.filter(a =>
+    a.tags.some(tag => tag === 'Исследование' || tag === 'Research') || a.slug.includes('issledovanie')
+  );
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white border-b border-gray-200">

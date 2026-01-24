@@ -1,58 +1,36 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import ArticleCard from '@/components/ArticleCard'
-import { Search, Filter } from 'lucide-react'
+import { Search, Filter, Loader2 } from 'lucide-react'
 import { Article } from '@/types'
 
-// Mock data - в реальном приложении будет из API
-const allArticles: Article[] = [
-  {
-    id: '1',
-    title: 'Подростковая депрессия',
-    slug: 'podrostkovaya-depressiya',
-    content: '',
-    excerpt: 'Клиническая депрессия у подростков — это психическое расстройство...',
-    author: { id: '1', name: 'А.Скибидиева' },
-    tags: ['Подростковая депрессия', 'Депрессия', 'Здоровье подростков'],
-    readingTime: 12,
-    publishedAt: '2024-01-15',
-    popular: true,
-  },
-  {
-    id: '2',
-    title: 'Буллинг в школе: как помочь подростку',
-    slug: 'bulling-v-shkole',
-    content: '',
-    excerpt: 'Практические советы для родителей и педагогов...',
-    author: { id: '2', name: 'Ю.Пак' },
-    tags: ['Буллинг', 'Школа', 'Подростки'],
-    readingTime: 8,
-    publishedAt: '2024-01-10',
-    popular: true,
-  },
-  {
-    id: '3',
-    title: 'Профориентация подростков: современные подходы',
-    slug: 'proforientatsiya',
-    content: '',
-    excerpt: 'Как помочь подростку выбрать профессию...',
-    author: { id: '3', name: 'Н.Постоева' },
-    tags: ['Профориентация', 'Подростки'],
-    readingTime: 10,
-    publishedAt: '2024-01-05',
-  },
-]
-
-const allTags = Array.from(new Set(allArticles.flatMap(a => a.tags)))
-
 export default function ArticlesPage() {
+  const [articles, setArticles] = useState<Article[]>([])
+  const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [sortBy, setSortBy] = useState<'recent' | 'popular' | 'alphabetical'>('recent')
 
+  useEffect(() => {
+    async function fetchArticles() {
+      try {
+        const res = await fetch('/api/articles?status=published')
+        const data = await res.json()
+        setArticles(data)
+      } catch (error) {
+        console.error('Failed to fetch articles:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchArticles()
+  }, [])
+
+  const allTags = useMemo(() => Array.from(new Set(articles.flatMap(a => a.tags))), [articles])
+
   const filteredArticles = useMemo(() => {
-    let filtered = [...allArticles]
+    let filtered = [...articles]
 
     // Search filter
     if (searchQuery) {
@@ -84,11 +62,19 @@ export default function ArticlesPage() {
     })
 
     return filtered
-  }, [searchQuery, selectedTags, sortBy])
+  }, [articles, searchQuery, selectedTags, sortBy])
 
   const toggleTag = (tag: string) => {
     setSelectedTags(prev =>
       prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
+    )
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Loader2 className="w-12 h-12 text-primary-600 animate-spin" />
+      </div>
     )
   }
 
@@ -127,11 +113,10 @@ export default function ArticlesPage() {
                 <button
                   key={sort}
                   onClick={() => setSortBy(sort)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    sortBy === sort
-                      ? 'bg-primary-100 text-primary-700'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${sortBy === sort
+                    ? 'bg-primary-100 text-primary-700'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
                 >
                   {sort === 'recent' && 'По дате'}
                   {sort === 'popular' && 'Популярные'}

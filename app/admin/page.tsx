@@ -1,10 +1,57 @@
-import { getArticles } from "@/lib/db";
+"use client";
+
+import { useEffect, useState } from "react";
 import { MotionDiv } from "@/components/MotionDiv";
 import Link from "next/link";
-import { FileText, Users, Eye, ArrowRight } from "lucide-react";
+import { FileText, Users, Eye, ArrowRight, Database, Loader2 } from "lucide-react";
 
-export default async function AdminDashboard() {
-  const articles = await getArticles();
+export default function AdminDashboard() {
+  const [articles, setArticles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [seeding, setSeeding] = useState(false);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    try {
+      const res = await fetch("/api/articles");
+      const data = await res.json();
+      setArticles(Array.isArray(data) ? data : []);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleSeed() {
+    if (!confirm("Это действие заменит все текущие статьи и авторов в базе данных на стандартные. Продолжить?")) return;
+    setSeeding(true);
+    try {
+      const res = await fetch("/api/admin/seed", { method: "POST" });
+      if (res.ok) {
+        alert("База данных успешно инициализирована!");
+        fetchData();
+      } else {
+        alert("Ошибка при инициализации");
+      }
+    } catch (e) {
+      alert("Ошибка при инициализации");
+    } finally {
+      setSeeding(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+      </div>
+    );
+  }
+
   const publishedCount = articles.filter((a) => a.status === "published").length;
   const totalViews = articles.reduce((acc, curr) => acc + (curr.views || 0), 0);
 
@@ -16,9 +63,19 @@ export default async function AdminDashboard() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Дашборд</h1>
-        <p className="text-gray-500">Добро пожаловать в админ-панель</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Дашборд</h1>
+          <p className="text-gray-500">Добро пожаловать в админ-панель</p>
+        </div>
+        <button
+          onClick={handleSeed}
+          disabled={seeding}
+          className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-600 disabled:opacity-50"
+        >
+          {seeding ? <Loader2 size={16} className="animate-spin" /> : <Database size={16} />}
+          <span>Восстановить примеры статей</span>
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -52,7 +109,7 @@ export default async function AdminDashboard() {
         </div>
         <div className="divide-y divide-gray-100">
           {articles.slice(0, 5).map((article) => (
-            <div key={article._id?.toString()} className="p-4 hover:bg-gray-50 transition-colors flex items-center justify-between">
+            <div key={article.id || article._id} className="p-4 hover:bg-gray-50 transition-colors flex items-center justify-between">
               <div>
                 <h4 className="font-medium text-gray-900">{article.title}</h4>
                 <p className="text-sm text-gray-500">
@@ -60,8 +117,8 @@ export default async function AdminDashboard() {
                 </p>
               </div>
               <span className={`px-3 py-1 rounded-full text-xs font-medium ${article.status === 'published'
-                  ? 'bg-green-100 text-green-700'
-                  : 'bg-yellow-100 text-yellow-700'
+                ? 'bg-green-100 text-green-700'
+                : 'bg-yellow-100 text-yellow-700'
                 }`}>
                 {article.status === 'published' ? 'Опубликовано' : (article.status === 'draft' ? 'Черновик' : article.status)}
               </span>
@@ -69,7 +126,7 @@ export default async function AdminDashboard() {
           ))}
           {articles.length === 0 && (
             <div className="p-8 text-center text-gray-500">
-              Статей пока нет. Начните писать!
+              Статей пока нет. Нажмите кнопку "Восстановить примеры статей", чтобы заполнить базу данных.
             </div>
           )}
         </div>
@@ -77,3 +134,4 @@ export default async function AdminDashboard() {
     </div>
   );
 }
+
