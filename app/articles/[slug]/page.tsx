@@ -8,7 +8,7 @@ import Image from 'next/image'
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const article = await getArticleBySlug(params.slug)
-  
+
   if (!article) {
     return {}
   }
@@ -62,7 +62,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         <Breadcrumbs
           items={[
             { label: 'Главная', href: '/' },
-            { label: 'Популярное', href: '/articles' },
+            { label: 'Статьи', href: '/articles' },
             { label: article.title },
           ]}
         />
