@@ -4,7 +4,6 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MotionDiv } from "@/components/MotionDiv";
-
 import { Suspense } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
@@ -118,12 +117,6 @@ function LoginForm() {
                         {loading ? "Вход..." : "Войти"}
                     </button>
                 </form>
-
-                <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100 text-sm text-blue-800">
-                    <p className="font-semibold mb-1">Данные для входа (по умолчанию):</p>
-                    <p>Login: <code className="bg-white px-1 py-0.5 rounded border border-blue-200">admin@example.com</code></p>
-                    <p>Password: <code className="bg-white px-1 py-0.5 rounded border border-blue-200">admin1234</code></p>
-                </div>
             </MotionDiv>
         </div>
     );

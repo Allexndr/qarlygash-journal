@@ -1,156 +1,76 @@
-/* Seed mock data into MongoDB for demo */
-const { MongoClient, ObjectId } = require('mongodb')
-const bcrypt = require('bcryptjs')
+const { MongoClient } = require('mongodb');
+const { put } = require('@vercel/blob');
+require('dotenv').config({ path: '.env.local' });
 
-const uri = process.env.MONGODB_URI
-if (!uri) {
-  console.error('MONGODB_URI not set. Provide it via env.')
-  process.exit(1)
-}
+// Mock data generator
+const articles = [
+  {
+    title: 'Как справиться с экзаменационным стрессом',
+    slug: 'kak-spravitsya-s-stressom',
+    excerpt: 'Практические советы для школьников и студентов по подготовке к экзаменам без лишних нервов.',
+    content: '<p>Экзамены — это всегда стресс, но есть способы его минимизировать...</p><h2>1. Планируйте</h2><p>Составьте график подготовки.</p><h2>2. Отдыхайте</h2><p>Не забывайте про сон и прогулки.</p>',
+    tags: ['Стресс', 'Учеба', 'Экзамены'],
+    status: 'published',
+    metaTitle: 'Борьба со стрессом перед экзаменами',
+    metaDescription: 'Советы психолога по подготовке к экзаменам.',
+    readingTime: 5,
+  },
+  {
+    title: 'Влияние социальных сетей на самооценку подростка',
+    slug: 'vliyanie-soc-setey',
+    excerpt: 'Анализ того, как Instagram и TikTok формируют восприятие себя у современной молодежи.',
+    content: '<p>Социальные сети создают иллюзию идеальной жизни...</p>',
+    tags: ['Соцсети', 'Самооценка', 'Подростки'],
+    status: 'published',
+    metaTitle: 'Соцсети и самооценка',
+    readingTime: 7,
+  },
+  {
+    title: 'Первая любовь: инструкция для родителей',
+    slug: 'pervaya-lyubov-roditeli',
+    excerpt: 'Как поддержать ребенка в период первых чувств и не испортить отношения.',
+    content: '<p>Первая любовь — это важное событие в жизни подростка...</p>',
+    tags: ['Родители', 'Отношения'],
+    status: 'draft',
+    readingTime: 6,
+  }
+];
 
-const client = new MongoClient(uri)
-
-async function ensureAuthor(db, author) {
-  const existing = await db.collection('authors').findOne({ name: author.name })
-  if (existing) return existing._id
-  const { insertedId } = await db.collection('authors').insertOne({ ...author, createdAt: new Date() })
-  return insertedId
-}
-
-async function upsertArticle(db, article) {
-  await db.collection('articles').updateOne(
-    { slug: article.slug },
-    { $set: article, $setOnInsert: { createdAt: new Date() } },
-    { upsert: true }
-  )
-  const found = await db.collection('articles').findOne({ slug: article.slug })
-  return found?._id
-}
-
-async function main() {
-  await client.connect()
-  const db = client.db()
-
-  // Admin user
-  const adminEmail = 'admin@example.com'
-  const adminPass = 'admin1234'
-  const adminHash = bcrypt.hashSync(adminPass, 10)
-  await db.collection('admins').updateOne(
-    { email: adminEmail },
-    {
-      $set: {
-        email: adminEmail,
-        passwordHash: adminHash,
-        name: 'Администратор',
-        role: 'admin',
-        createdAt: new Date(),
-      },
-    },
-    { upsert: true }
-  )
-  console.log('Admin created/updated:', adminEmail, 'пароль:', adminPass)
-
-  const authors = {
-    skib: await ensureAuthor(db, {
-      name: 'А.Скибидиева',
-      bio: 'Психолог, специалист по подростковой психологии',
-      credentials: 'Психолог, специалист по подростковой психологии',
-      photo: '',
-      email: 'aski@example.com',
-    }),
-    pak: await ensureAuthor(db, {
-      name: 'Ю.Пак',
-      bio: 'Психолог, преподаватель психологии, монтессори-педагог',
-      credentials: 'Психолог, педагог',
-      photo: '',
-      email: 'ypak@example.com',
-    }),
-    posto: await ensureAuthor(db, {
-      name: 'Н.Постоева',
-      bio: 'Информационная поддержка, перинатальный психолог',
-      credentials: 'Психолог',
-      photo: '',
-      email: 'nposto@example.com',
-    }),
+async function seed() {
+  if (!process.env.MONGODB_URI) {
+    console.error('MONGODB_URI missing');
+    process.exit(1);
   }
 
-  const articles = [
-    {
-      title: 'Подростковая депрессия',
-      slug: 'podrostkovaya-depressiya',
-      content:
-        '<h2>Определение болезни – подростковая депрессия</h2><p>Клиническая депрессия у подростков — это психическое расстройство, характеризующееся сниженным настроением, чувством грусти, тоски, отчаяния и другими расстройствами эмоциональной сферы.</p>',
-      excerpt:
-        'Клиническая депрессия у подростков — это психическое расстройство, характеризующееся сниженным настроением, чувством грусти, тоски, отчаяния и другими расстройствами эмоциональной сферы.',
-      authorId: authors.skib,
-      tags: ['Подростковая депрессия', 'Депрессия', 'Здоровье подростков', 'Кризис'],
-      readingTime: 12,
-      publishedAt: new Date('2024-01-15'),
-      status: 'published',
-      featured: true,
-      popular: true,
-      metaTitle: 'Подростковая депрессия',
-      metaDescription: 'Статья о признаках и проявлениях подростковой депрессии',
-    },
-    {
-      title: 'Буллинг в школе: как помочь подростку',
-      slug: 'bulling-v-shkole',
-      content: '<p>Практические советы для родителей и педагогов по предотвращению и преодолению буллинга.</p>',
-      excerpt: 'Практические советы для родителей и педагогов по предотвращению и преодолению буллинга.',
-      authorId: authors.pak,
-      tags: ['Буллинг', 'Школа', 'Подростки'],
-      readingTime: 8,
-      publishedAt: new Date('2024-01-10'),
-      status: 'published',
-      popular: true,
-      metaTitle: 'Буллинг в школе',
-      metaDescription: 'Как помочь подростку при буллинге в школе',
-    },
-    {
-      title: 'Профориентация подростков: современные подходы',
-      slug: 'proforientatsiya',
-      content: '<p>Как помочь подростку выбрать профессию в современном мире.</p>',
-      excerpt: 'Как помочь подростку выбрать профессию в современном мире.',
-      authorId: authors.posto,
-      tags: ['Профориентация', 'Подростки'],
-      readingTime: 10,
-      publishedAt: new Date('2024-01-05'),
-      status: 'published',
-      popular: true,
-      metaTitle: 'Профориентация подростков',
-      metaDescription: 'Современные подходы к профориентации подростков',
-    },
-  ]
+  const client = new MongoClient(process.env.MONGODB_URI);
 
-  const articleIds = []
-  for (const a of articles) {
-    const id = await upsertArticle(db, a)
-    if (id) articleIds.push(id)
+  try {
+    await client.connect();
+    console.log('Connected to MongoDB');
+
+    const db = client.db();
+    const collection = db.collection('articles');
+
+    // Add dates
+    const articlesWithDates = articles.map(a => ({
+      ...a,
+      publishedAt: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      views: Math.floor(Math.random() * 100),
+      featured: Math.random() > 0.8,
+      popular: Math.random() > 0.7,
+      authorId: 'seed-admin' // Placeholder
+    }));
+
+    await collection.insertMany(articlesWithDates);
+    console.log(`Inserted ${articles.length} articles`);
+
+  } catch (error) {
+    console.error('Seed error:', error);
+  } finally {
+    await client.close();
   }
-
-  const featuredId = articleIds[0]
-  const popularIds = articleIds.slice(0, 3)
-
-  await db.collection('siteSettings').updateOne(
-    {},
-    {
-      $set: {
-        siteName: 'Қарлығаш',
-        siteDescription: 'Психологический журнал',
-        featuredArticleId: featuredId,
-        popularArticleIds: popularIds,
-        updatedAt: new Date(),
-      },
-    },
-    { upsert: true }
-  )
-
-  console.log('Seed completed. Inserted/updated articles:', articleIds.map(String))
 }
 
-main()
-  .catch((err) => {
-    console.error('Seed error', err)
-    process.exit(1)
-  })
-  .finally(() => client.close())
+seed();

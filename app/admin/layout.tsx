@@ -30,14 +30,14 @@ export default function AdminLayout({
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 flex transition-colors duration-300">
+        <div className="min-h-screen bg-gray-50 flex">
             {/* Sidebar */}
             <MotionDiv
                 initial={false}
                 animate={{ width: isSidebarOpen ? 280 : 80 }}
-                className="fixed inset-y-0 left-0 z-50 bg-white dark:bg-black/50 backdrop-blur-xl border-r border-gray-200 dark:border-zinc-800 flex flex-col transition-all duration-300"
+                className="fixed inset-y-0 left-0 z-50 bg-white border-r border-gray-200 flex flex-col transition-all duration-300"
             >
-                <div className="h-16 flex items-center justify-between px-6 border-b border-gray-100 dark:border-zinc-800">
+                <div className="h-16 flex items-center justify-between px-6 border-b border-gray-100">
                     {isSidebarOpen ? (
                         <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent truncate">
                             Admin Panel
@@ -45,7 +45,7 @@ export default function AdminLayout({
                     ) : null}
                     <button
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+                        className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
                     >
                         {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
                     </button>
@@ -59,14 +59,14 @@ export default function AdminLayout({
                                 key={item.name}
                                 href={item.href}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group relative overflow-hidden ${isActive
-                                        ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20"
-                                        : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-zinc-800/50"
+                                        ? "text-blue-600 bg-blue-50"
+                                        : "text-gray-600 hover:bg-gray-50"
                                     }`}
                             >
                                 {isActive && (
                                     <MotionDiv
                                         layoutId="activeTab"
-                                        className="absolute inset-0 bg-blue-50 dark:bg-blue-900/20 rounded-xl"
+                                        className="absolute inset-0 bg-blue-50 rounded-xl"
                                         initial={false}
                                         transition={{ type: "spring", stiffness: 500, damping: 30 }}
                                     />
@@ -80,10 +80,10 @@ export default function AdminLayout({
                     })}
                 </nav>
 
-                <div className="p-4 border-t border-gray-100 dark:border-zinc-800">
+                <div className="p-4 border-t border-gray-100">
                     <button
                         onClick={() => signOut({ callbackUrl: "/auth/login" })}
-                        className={`w-full flex items-center gap-3 px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-xl transition-colors ${!isSidebarOpen && "justify-center"}`}
+                        className={`w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-colors ${!isSidebarOpen && "justify-center"}`}
                     >
                         <LogOut size={20} />
                         {isSidebarOpen && <span className="font-medium">Sign Out</span>}
