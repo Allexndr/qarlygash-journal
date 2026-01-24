@@ -43,16 +43,14 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
-    // Validate body
-    if (!body.title || !body.content || !body.slug) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
-    }
-
     const result = await createArticle({
       ...body,
+      title: body.title || "Untitled",
+      slug: body.slug || `post-${Date.now()}`,
+      content: body.content || "",
       authorId: session.user.id, // Assuming authorId is string or ObjectId compatible
       views: 0,
-      publishedAt: new Date(), // Or use body.publishedAt if scheduled
+      publishedAt: body.publishedAt ? new Date(body.publishedAt) : new Date(),
     });
 
     return NextResponse.json(result, { status: 201 });

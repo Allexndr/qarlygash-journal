@@ -61,11 +61,12 @@ export default function NewArticlePage() {
   };
 
   const handleSave = async () => {
-    if (!title || !content || !slug) {
-      alert("Пожалуйста, заполните заголовок, URL и содержимое статьи");
-      return;
-    }
     setSaving(true);
+
+    // Provide default values if fields are missing
+    const finalTitle = title.trim() || `Untitled Article - ${new Date().toLocaleDateString()}`;
+    const finalSlug = slug.trim() || `post-${Date.now()}`;
+    const finalContent = content || "<p></p>";
 
     try {
       const response = await fetch('/api/articles', {
@@ -74,19 +75,19 @@ export default function NewArticlePage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          title,
-          slug,
-          excerpt,
-          content,
+          title: finalTitle,
+          slug: finalSlug,
+          excerpt: excerpt || finalTitle,
+          content: finalContent,
           heroImage: coverImage,
           status: 'published',
           publishedAt: new Date(publishedAt),
           tags: [],
-          readingTime: Math.ceil(content.split(' ').length / 200),
+          readingTime: Math.ceil(finalContent.split(' ').length / 200),
           // SEO
-          metaTitle: metaTitle || title,
-          metaDescription: metaDescription || excerpt,
-          metaKeywords: metaKeywords.split(',').map(k => k.trim()).filter(k => k),
+          metaTitle: metaTitle || finalTitle,
+          metaDescription: metaDescription || excerpt || finalTitle,
+          metaKeywords: metaKeywords ? metaKeywords.split(',').map(k => k.trim()).filter(k => k) : [],
         }),
       });
 
@@ -137,7 +138,7 @@ export default function NewArticlePage() {
           >
             <input
               type="text"
-              placeholder="Заголовок статьи"
+              placeholder="Заголовок (необязательно)"
               value={title}
               onChange={handleTitleChange}
               className="w-full text-4xl font-bold placeholder-gray-300 border-none focus:ring-0 bg-transparent p-0 text-gray-900"
@@ -148,13 +149,14 @@ export default function NewArticlePage() {
               <input
                 type="text"
                 value={slug}
+                placeholder="Авто-генерация если пусто"
                 onChange={(e) => setSlug(generateSlug(e.target.value))}
                 className="bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs w-full max-w-sm focus:outline-none focus:border-blue-500 transition-colors"
               />
             </div>
 
             <textarea
-              placeholder="Краткое описание (появляется в карточках и результатах поиска Google)..."
+              placeholder="Краткое описание (необязательно)..."
               value={excerpt}
               onChange={(e) => setExcerpt(e.target.value)}
               rows={2}
