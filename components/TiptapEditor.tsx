@@ -44,8 +44,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
             const newBlob = await upload(file.name, file, {
                 access: 'public',
                 handleUploadUrl: '/api/admin/upload',
-                addRandomSuffix: true,
-            } as any);
+            });
             editor.chain().focus().setImage({ src: newBlob.url }).run();
         } catch (error) {
             console.error("Error uploading image:", error);

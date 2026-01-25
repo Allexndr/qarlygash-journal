@@ -35,8 +35,7 @@ export default function NewArticlePage() {
       const newBlob = await upload(file.name, file, {
         access: 'public',
         handleUploadUrl: '/api/admin/upload',
-        addRandomSuffix: true,
-      } as any);
+      });
       setCoverImage(newBlob.url);
     } catch (error) {
       console.error("Upload failed", error);
